@@ -1,4 +1,4 @@
-﻿using System;
+[20.10.2026 12:56] polina: using System;
 
 namespace OOP_Lab1
 {
@@ -110,56 +110,44 @@ namespace OOP_Lab1
             Console.WriteLine($"=== ДОДАВАННЯ ОБ'ЄКТА (РУЧНЕ) ({currentCount + 1}/{maxCapacity}) ===\n");
 
             SmartHouse house = new SmartHouse();
-
-            while (true)
+[20.10.2026 12:56] polina: while (true)
             {
                 Console.Write("Введіть адресу (5-60 символів): ");
-                string input = Console.ReadLine()?.Trim() ?? "";
-                try
+                string input = Console.ReadLine()?.Trim();
+
+                if (!string.IsNullOrEmpty(input) && input.Length >= 5 && input.Length <= 60)
                 {
-                    house.Adress = input;
+                    house.adress = input;
                     break;
                 }
-                catch (ArgumentException ex)
-                {
-                    Console.WriteLine($"ПОМИЛКА! {ex.Message}");
-                }
+                Console.WriteLine("ПОМИЛКА! Довжина адреси має бути від 5 до 60 символів!");
             }
 
             while (true)
             {
                 Console.Write("Введіть кількість кімнат (1-30): ");
-                if (int.TryParse(Console.ReadLine(), out int r))
+
+                if (int.TryParse(Console.ReadLine(), out int r) && r >= 1 && r <= 30)
                 {
-                    try
-                    {
-                        house.Rooms = r;
-                        break;
-                    }
-                    catch (ArgumentOutOfRangeException ex)
-                    {
-                        Console.WriteLine($"ПОМИЛКА! {ex.Message}");
-                    }
+                    house.rooms = r;
+                    break;
                 }
-                else
-                {
-                    Console.WriteLine("ПОМИЛКА! Введіть ціле число!");
-                }
+
+                Console.WriteLine("ПОМИЛКА! Введіть ціле число від 1 до 30!");
             }
 
             while (true)
             {
                 Console.Write("Введіть ім'я власника (2-20 літер): ");
-                string input = Console.ReadLine()?.Trim() ?? "";
-                try
+                string input = Console.ReadLine()?.Trim();
+
+                if (!string.IsNullOrEmpty(input) && input.Length >= 2 && input.Length <= 20)
                 {
-                    house.OwnersName = input;
+                    house.ownersName = input;
                     break;
                 }
-                catch (ArgumentException ex)
-                {
-                    Console.WriteLine($"ПОМИЛКА! {ex.Message}");
-                }
+
+                Console.WriteLine("ПОМИЛКА! Довжина імені має бути від 2 до 20 символів!");
             }
 
             while (true)
@@ -169,7 +157,7 @@ namespace OOP_Lab1
 
                 if (int.TryParse(Console.ReadLine(), out int modeVal) && modeVal >= 0 && modeVal <= 4)
                 {
-                    house.SwitchMode((HouseMode)modeVal);
+                    house.currentMode = (HouseMode)modeVal;
                     break;
                 }
 
@@ -179,43 +167,27 @@ namespace OOP_Lab1
             while (true)
             {
                 Console.Write("Введіть бажану середню температуру (15.0 - 32.0 °C): ");
-                if (double.TryParse(Console.ReadLine(), out double temp))
+                if (double.TryParse(Console.ReadLine(), out double temp) &&
+                    temp >= 15.0 && temp <= 32.0)
                 {
-                    try
-                    {
-                        house.AverageTemperature = temp;
-                        break;
-                    }
-                    catch (ArgumentOutOfRangeException ex)
-                    {
-                        Console.WriteLine($"ПОМИЛКА! {ex.Message}");
-                    }
+                    house.averageTemperature = temp;
+                    break;
                 }
-                else
-                {
-                    Console.WriteLine("ПОМИЛКА! Введіть числове значення!");
-                }
+                Console.WriteLine("ПОМИЛКА! Введіть значення від 15.0 до 32.0!");
             }
 
             while (true)
             {
-                Console.Write("Введіть середню напругу (198.0 - 242.0 В): ");
-                if (double.TryParse(Console.ReadLine(), out double volt))
+                Console.Write("Введіть середню напругу (160.0 - 280.0 В): ");
+
+                if (double.TryParse(Console.ReadLine(), out double volt) &&
+                    volt >= 160.0 && volt <= 280.0)
                 {
-                    try
-                    {
-                        house.AverageVoltage = volt;
-                        break;
-                    }
-                    catch (ArgumentOutOfRangeException ex)
-                    {
-                        Console.WriteLine($"ПОМИЛКА! {ex.Message}");
-                    }
+                    house.averageVoltage = volt;
+                    break;
                 }
-                else
-                {
-                    Console.WriteLine("ПОМИЛКА! Введіть числове значення!");
-                }
+
+                Console.WriteLine("ПОМИЛКА! Введіть значення від 160.0 до 280.0!");
             }
 
             while (true)
@@ -225,13 +197,13 @@ namespace OOP_Lab1
 
                 if (input == "1")
                 {
-                    house.ToggleSecurity(true);
+                    house.isSecured = true;
                     break;
                 }
 
                 if (input == "0")
                 {
-                    house.ToggleSecurity(false);
+                    house.isSecured = false;
                     break;
                 }
 
@@ -245,7 +217,7 @@ namespace OOP_Lab1
                 if (DateTime.TryParse(Console.ReadLine(), out DateTime dt) &&
                     dt >= new DateTime(2000, 1, 1) && dt <= DateTime.Now)
                 {
-                    house.DateOfLastServiceCheck = dt;
+                    house.dateOfLastServiceCheck = dt;
                     break;
                 }
 
@@ -263,8 +235,7 @@ namespace OOP_Lab1
         static void AddHouseAuto()
         {
             Random rnd = new Random();
-
-            string[] streetNames =
+[20.10.2026 12:56] polina: string[] streetNames =
             {
                 "вул. Соборна, ", "вул. Хрещатик, ", "просп. Перемоги, ", "вул. Шевченка, ", "вул. Лесі Українки, "
             };
@@ -276,20 +247,20 @@ namespace OOP_Lab1
 
             SmartHouse house = new SmartHouse();
 
-            house.Adress = streetNames[rnd.Next(streetNames.Length)] + rnd.Next(1, 100);
-            house.OwnersName = ownerNames[rnd.Next(ownerNames.Length)];
-            house.Rooms = rnd.Next(1, 6);
-            house.SwitchMode((HouseMode)rnd.Next(0, 5));
-            house.AverageTemperature = Math.Round(18.0 + rnd.NextDouble() * 8.0, 1);
-            house.AverageVoltage = Math.Round(200.0 + rnd.NextDouble() * 40.0, 1);
-            house.ToggleSecurity(rnd.Next(0, 2) == 1);
-            house.DateOfLastServiceCheck = DateTime.Now.AddDays(-rnd.Next(10, 500));
+            house.adress = streetNames[rnd.Next(streetNames.Length)] + rnd.Next(1, 100);
+            house.ownersName = ownerNames[rnd.Next(ownerNames.Length)];
+            house.rooms = rnd.Next(1, 6);
+            house.currentMode = (HouseMode)rnd.Next(0, 5);
+            house.averageTemperature = Math.Round(18.0 + rnd.NextDouble() * 8.0, 1);
+            house.averageVoltage = Math.Round(210.0 + rnd.NextDouble() * 30.0, 1);
+            house.isSecured = rnd.Next(0, 2) == 1;
+            house.dateOfLastServiceCheck = DateTime.Now.AddDays(-rnd.Next(10, 500));
 
             houses[currentCount] = house;
             currentCount++;
 
             Console.WriteLine("\nУСПІХ! Об'єкт автоматично згенеровано та додано!");
-            Console.WriteLine($"Власник: {house.OwnersName} | Адреса: {house.Adress}");
+            Console.WriteLine($"Власник: {house.ownersName} | Адреса: {house.adress}");
 
             Pause();
         }
@@ -334,8 +305,8 @@ namespace OOP_Lab1
             Console.WriteLine("7 – За охороною");
             Console.Write("Ваш вибір: ");
 
-            if (!int.TryParse(Console.ReadLine(), out int criteria1) ||
-                criteria1 < 1 || criteria1 > 7)
+            if (!int.TryParse(Console.ReadLine(), out int criteria1) 
+                criteria1 < 1  criteria1 > 7)
             {
                 Console.WriteLine("\nПОМИЛКА! Некоректний вибір!");
                 return;
@@ -351,8 +322,8 @@ namespace OOP_Lab1
             Console.WriteLine("7 – За охороною");
             Console.Write("Ваш вибір: ");
 
-            if (!int.TryParse(Console.ReadLine(), out int criteria2) ||
-                criteria2 < 1 || criteria2 > 7)
+            if (!int.TryParse(Console.ReadLine(), out int criteria2) 
+                criteria2 < 1  criteria2 > 7)
             {
                 Console.WriteLine("\nПОМИЛКА! Некоректний вибір!");
                 return;
@@ -360,7 +331,8 @@ namespace OOP_Lab1
 
             if (criteria1 == criteria2)
             {
-                Console.WriteLine("\nПОМИЛКА! Потрібно обрати дві різні характеристики!");
+                Console.WriteLine(
+                    "\nПОМИЛКА! Потрібно обрати дві різні характеристики!");
                 return;
             }
 
@@ -375,8 +347,7 @@ namespace OOP_Lab1
             }
 
             string value2 = ReadSearchValue(criteria2);
-
-            if (string.IsNullOrWhiteSpace(value2))
+[20.10.2026 12:56] polina: if (string.IsNullOrWhiteSpace(value2))
             {
                 Console.WriteLine("\nПОМИЛКА! Значення не може бути порожнім!");
                 return;
@@ -393,8 +364,15 @@ namespace OOP_Lab1
                 if (house == null)
                     continue;
 
-                bool match1 = CheckSearchCriteria(house, criteria1, value1);
-                bool match2 = CheckSearchCriteria(house, criteria2, value2);
+                bool match1 = CheckSearchCriteria(
+                    house,
+                    criteria1,
+                    value1);
+
+                bool match2 = CheckSearchCriteria(
+                    house,
+                    criteria2,
+                    value2);
 
                 if (match1 && match2)
                 {
@@ -410,7 +388,8 @@ namespace OOP_Lab1
 
             if (!found)
             {
-                Console.WriteLine("[ІНФО] Об'єктів, що відповідають заданим характеристикам, не знайдено.");
+                Console.WriteLine(
+                    "[ІНФО] Об'єктів, що відповідають заданим характеристикам, не знайдено.");
             }
         }
 
@@ -431,7 +410,11 @@ namespace OOP_Lab1
                     return Console.ReadLine()?.Trim() ?? "";
 
                 case 4:
-                    Console.WriteLine("0 - Home, 1 - Away, 2 - Econom, 3 - Night, 4 - Vacation");
+                    Console.WriteLine("0 - Home");
+                    Console.WriteLine("1 - Away");
+                    Console.WriteLine("2 - Econom");
+                    Console.WriteLine("3 - Night");
+                    Console.WriteLine("4 - Vacation");
                     Console.Write("Введіть номер режиму: ");
                     return Console.ReadLine()?.Trim() ?? "";
 
@@ -452,23 +435,33 @@ namespace OOP_Lab1
             }
         }
 
-        static bool CheckSearchCriteria(SmartHouse house, int criteria, string value)
+        static bool CheckSearchCriteria(
+            SmartHouse house,
+            int criteria,
+            string value)
         {
             value = value.Trim();
 
             switch (criteria)
             {
                 case 1:
-                    return string.Equals(house.OwnersName?.Trim(), value, StringComparison.OrdinalIgnoreCase);
+                    return string.Equals(
+                        house.ownersName?.Trim(),
+                        value,
+                        StringComparison.OrdinalIgnoreCase);
 
                 case 2:
-                    return string.Equals(house.Adress?.Trim(), value, StringComparison.OrdinalIgnoreCase);
+                    return string.Equals(
+                        house.adress?.Trim(),
+                        value,
+                        StringComparison.OrdinalIgnoreCase);
 
                 case 3:
                     if (int.TryParse(value, out int rooms))
                     {
-                        return house.Rooms == rooms;
+                        return house.rooms == rooms;
                     }
+
                     return false;
 
                 case 4:
@@ -476,35 +469,52 @@ namespace OOP_Lab1
                     {
                         if (modeNumber >= 0 && modeNumber <= 4)
                         {
-                            return house.CurrentMode == (HouseMode)modeNumber;
+                            return house.currentMode == (HouseMode)modeNumber;
                         }
                     }
-                    return false;
 
-                case 5:
-                    if (double.TryParse(value.Replace(',', '.'), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double temperature))
+                    return false;
+[20.10.2026 12:56] polina: case 5:
+                    if (double.TryParse(
+                        value.Replace(',', '.'),
+                        System.Globalization.NumberStyles.Any,
+                        System.Globalization.CultureInfo.InvariantCulture,
+                        out double temperature))
                     {
-                        return Math.Abs(house.AverageTemperature - temperature) < 0.01;
+                        return Math.Abs(
+                            house.averageTemperature - temperature) < 0.01;
                     }
+
                     return false;
 
                 case 6:
-                    if (double.TryParse(value.Replace(',', '.'), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double voltage))
+                    if (double.TryParse(
+                        value.Replace(',', '.'),
+                        System.Globalization.NumberStyles.Any,
+                        System.Globalization.CultureInfo.InvariantCulture,
+                        out double voltage))
                     {
-                        return Math.Abs(house.AverageVoltage - voltage) < 0.01;
+                        return Math.Abs(
+                            house.averageVoltage - voltage) < 0.01;
                     }
+
                     return false;
 
                 case 7:
-                    if (value == "1" || value.Equals("Так", StringComparison.OrdinalIgnoreCase))
+                    if (value == "1" 
+                        value.Equals("Так",
+                            StringComparison.OrdinalIgnoreCase))
                     {
-                        return house.IsSecured;
+                        return house.isSecured;
                     }
 
-                    if (value == "0" || value.Equals("Ні", StringComparison.OrdinalIgnoreCase))
+                    if (value == "0" 
+                        value.Equals("Ні",
+                            StringComparison.OrdinalIgnoreCase))
                     {
-                        return !house.IsSecured;
+                        return !house.isSecured;
                     }
+
                     return false;
 
                 default:
@@ -527,7 +537,9 @@ namespace OOP_Lab1
 
             Console.Write("\nВведіть номер об'єкта для демонстрації поведінки: ");
 
-            if (!int.TryParse(Console.ReadLine(), out int index) || index < 1 || index > currentCount)
+            if (!int.TryParse(Console.ReadLine(), out int index) 
+                index < 1 
+                index > currentCount)
             {
                 Console.WriteLine("ПОМИЛКА! Некоректний порядковий номер!");
                 Pause();
@@ -540,12 +552,14 @@ namespace OOP_Lab1
             {
                 Console.Clear();
 
-                Console.WriteLine($"=== ДЕМОНСТРАЦІЯ ПОВЕДІНКИ (Об'єкт №{index}: {target.Adress}) ===");
-                Console.WriteLine($"Власник: {target.OwnersName} | Прошивка: {target.FirmwareVersion}");
-                Console.WriteLine($"Стан: Режим = {target.CurrentMode}, " +
-                                  $"Темп = {target.AverageTemperature:F1}°C, " +
-                                  $"Напруга = {target.AverageVoltage:F1}В ({target.VoltageStatus}), " +
-                                  $"Охорона = {(target.IsSecured ? "Так" : "Ні")}");
+                Console.WriteLine(
+                    $"=== ДЕМОНСТРАЦІЯ ПОВЕДІНКИ (Об'єкт №{index}: {target.adress}) ===");
+
+                Console.WriteLine(
+                    $"Власник: {target.ownersName} | Стан: Режим = {target.currentMode}, " +
+                    $"Темп = {target.averageTemperature:F1}°C, " +
+                    $"Напруга = {target.averageVoltage:F1}В, " +
+                    $"Охорона = {target.isSecured}");
 
                 Console.WriteLine("-------------------------------------------------------------------");
                 Console.WriteLine("1 – Змінити режим (SwitchMode)");
@@ -560,13 +574,17 @@ namespace OOP_Lab1
                 switch (subChoice)
                 {
                     case "1":
-                        Console.WriteLine("\nНовий режим: 0 - Home, 1 - Away, 2 - Econom, 3 - Night, 4 - Vacation");
+                        Console.WriteLine(
+                            "\nНовий режим: 0 - Home, 1 - Away, 2 - Econom, 3 - Night, 4 - Vacation");
 
-                        if (int.TryParse(Console.ReadLine(), out int m) && m >= 0 && m <= 4)
+                        if (int.TryParse(Console.ReadLine(), out int m) &&
+                            m >= 0 &&
+                            m <= 4)
                         {
                             target.SwitchMode((HouseMode)m);
-                            Console.WriteLine($"[ОК] Новий режим: {target.CurrentMode}. " +
-                                              $"Охорона: {(target.IsSecured ? "Увімкнена" : "Вимкнена")}");
+[20.10.2026 12:56] polina: Console.WriteLine(
+                                $"[ОК] Новий режим: {target.currentMode}. " +
+                                $"Охорона: {(target.isSecured ? "Увімкнена" : "Вимкнена")}");
                         }
                         else Console.WriteLine("ПОМИЛКА! Некоректний номер!");
 
@@ -574,27 +592,28 @@ namespace OOP_Lab1
                         break;
 
                     case "2":
-                        Console.Write("\nВведіть зміну температури (наприклад, +2.0 або -1.5): ");
+                        Console.Write(
+                            "\nВведіть зміну температури (наприклад, +2.0 або -1.5): ");
 
-                        if (double.TryParse(Console.ReadLine(), out double tChange))
+                        if (double.TryParse(
+                            Console.ReadLine(),
+                            out double tChange))
                         {
-                            try
-                            {
-                                target.AdjustTemperature(tChange);
-                                Console.WriteLine($"[ОК] Поточна температура після коригування: {target.AverageTemperature:F1} °C");
-                            }
-                            catch (ArgumentOutOfRangeException ex)
-                            {
-                                Console.WriteLine($"[ПОМИЛКА КЛІМАТУ] {ex.Message}");
-                            }
+                            target.AdjustTemperature(tChange);
+
+                            Console.WriteLine(
+                                $"[ОК] Поточна температура після коригування: " +
+                                $"{target.averageTemperature:F1} °C");
                         }
-                        else Console.WriteLine("ПОМИЛКА! Некоректне число!");
+                        else  Console.WriteLine("ПОМИЛКА! Некоректне число!");
 
                         Pause();
                         break;
 
                     case "3":
-                        Console.Write("\nУвімкнути охорону? (1 - Так, 0 - Ні): ");
+                        Console.Write(
+                            "\nУвімкнути охорону? (1 - Так, 0 - Ні): ");
+
                         string s = Console.ReadLine()?.Trim();
 
                         if (s == "1")
@@ -616,25 +635,22 @@ namespace OOP_Lab1
                         break;
 
                     case "4":
-                        Console.Write("\nВведіть значення напруги для перевірки (наприклад, 220 або 250): ");
+                        Console.Write(
+                            "\nВведіть значення напруги для перевірки (наприклад, 220 або 250): ");
 
                         if (double.TryParse(Console.ReadLine(), out double newVoltage))
                         {
-                            try
+                            bool isVoltageNormal = target.CheckAndStabilizeVoltage(newVoltage);
+
+                            if (isVoltageNormal)
                             {
-                                bool isVoltageNormal = target.CheckAndStabilizeVoltage(newVoltage);
-                                if (isVoltageNormal)
-                                {
-                                    Console.WriteLine($"[OK] Напруга в нормі: {target.AverageVoltage}В ({target.VoltageStatus}).");
-                                }
-                                else
-                                {
-                                    Console.WriteLine($"[УВАГА] Небезпечна напруга: {target.AverageVoltage}В ({target.VoltageStatus})! Спрацював захист.");
-                                }
+                                Console.WriteLine(
+                                    $"[OK] Напруга в нормі: {target.averageVoltage}В.");
                             }
-                            catch (ArgumentOutOfRangeException ex)
+                            else
                             {
-                                Console.WriteLine($"[КРИТИЧНА ПОМИЛКА] {ex.Message}");
+                                Console.WriteLine(
+                                    $"[УВАГА] Небезпечна напруга: {target.averageVoltage}В! Спрацював захист.");
                             }
                         }
                         else
@@ -678,8 +694,7 @@ namespace OOP_Lab1
                 ViewAllHouses();
 
                 Console.Write("\nВведіть номер для видалення: ");
-
-                if (int.TryParse(Console.ReadLine(), out int idx) && idx >= 1 && idx <= currentCount)
+[20.10.2026 12:56] polina: if (int.TryParse(Console.ReadLine(), out int idx) && idx >= 1 && idx <= currentCount)
                 {
                     for (int i = idx - 1; i < currentCount - 1; i++)
                     {
@@ -698,15 +713,16 @@ namespace OOP_Lab1
             }
             else if (opt == "2")
             {
-                Console.Write("Введіть ім'я власника для видалення об'єктів: ");
+                Console.Write(
+                    "Введіть ім'я власника для видалення об'єктів: ");
 
                 string name = Console.ReadLine()?.Trim() ?? "";
                 int removedCount = 0;
 
                 for (int i = 0; i < currentCount; i++)
                 {
-                    if (!string.IsNullOrEmpty(houses[i].OwnersName) &&
-                        houses[i].OwnersName.Equals(name, StringComparison.OrdinalIgnoreCase))
+                    if (!string.IsNullOrEmpty(houses[i].ownersName) &&
+                        houses[i].ownersName.ToLower() == name.ToLower())
                     {
                         for (int j = i; j < currentCount - 1; j++)
                         {
@@ -720,7 +736,7 @@ namespace OOP_Lab1
                     }
                 }
 
-                if (removedCount > 0) Console.WriteLine($"УСПІХ! Видалено об'єктів: {removedCount}");
+                if (removedCount > 0) Console.WriteLine(  $"УСПІХ! Видалено об'єктів: {removedCount}");
                 else Console.WriteLine("ІНФО! Об'єктів з таким власником не знайдено.");
             }
             else Console.WriteLine("ПОМИЛКА! Некоректний вибір!");
@@ -728,23 +744,35 @@ namespace OOP_Lab1
 
         static void PrintTableHeaders()
         {
-            Console.WriteLine(new string('-', 140));
-            Console.WriteLine($"| {"№",-2} | {"Власник",-12} | {"Адреса",-22} | {"Кімн",-4} | {"Режим",-8} | {"Темп",-6} | {"Напруга",-7} | {"Статус напруги",-28} | {"Охорона",-7} | {"ТО",-10} |");
-            Console.WriteLine(new string('-', 140));
+            Console.WriteLine(new string('-', 108));
+
+            Console.WriteLine(
+                $"| {"№",-2} | {"Власник",-15} | {"Адреса",-25} | {"Кімн",-4} | " +
+                $"{"Режим",-8} | {"Темп",-6} | {"Напруга",-7} | {"Охорона",-7} | {"ТО",-10} |");
+
+            Console.WriteLine(new string('-', 108));
         }
 
         static void PrintTableRow(int index, SmartHouse h)
         {
-            string owner = (h.OwnersName ?? "").Length > 12 ? h.OwnersName.Substring(0, 9) + "..." : (h.OwnersName ?? "");
-            string addr = (h.Adress ?? "").Length > 22 ? h.Adress.Substring(0, 19) + "..." : (h.Adress ?? "");
+            string owner =
+                (h.ownersName ?? "").Length > 15
+                    ? h.ownersName.Substring(0, 12) + "..."
+                    : (h.ownersName ?? "");
 
-            Console.WriteLine($"| {index,-2} | {owner,-12} | {addr,-22} | {h.Rooms,-4} | " +
-                              $"{h.CurrentMode,-8} | {h.AverageTemperature,6:F1} | " +
-                              $"{h.AverageVoltage,7:F1} | {h.VoltageStatus,-28} | " +
-                              $"{(h.IsSecured ? "Так" : "Ні"),-7} | " +
-                              $"{h.DateOfLastServiceCheck:yyyy-MM-dd} |");
+            string addr =
+                (h.adress ?? "").Length > 25
+                    ? h.adress.Substring(0, 22) + "..."
+                    : (h.adress ?? "");
 
-            Console.WriteLine(new string('-', 140));
+            Console.WriteLine(
+                $"| {index,-2} | {owner,-15} | {addr,-25} | {h.rooms,-4} | " +
+                $"{h.currentMode,-8} | {h.averageTemperature,6:F1} | " +
+                $"{h.averageVoltage,7:F1} | " +
+                $"{(h.isSecured ? "Так" : "Ні"),-7} | " +
+                $"{h.dateOfLastServiceCheck:yyyy-MM-dd} |");
+
+            Console.WriteLine(new string('-', 108));
         }
 
         static void Pause()
