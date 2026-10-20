@@ -1,36 +1,68 @@
 ﻿using System;
-using OOP_Lab1;
 
-public class SmartHouse
+namespace OOP_Lab1
+{
+    public class SmartHouse
     {
-	    private string _adress;
-	    private int _rooms;
-	    private string _ownersName;
-	    private HouseMode _currentMode;
-	    private double _averageTemperature;
-	    private double _averageVoltage;
-	    private bool _isSecured;
-	    private DateTime _dateOfLastServiceCheck;
+        private string _adress;
+        private int _rooms;
+        private string _ownersName;
+        private HouseMode _currentMode;
+        private double _averageTemperature;
+        private double _averageVoltage;
+        private bool _isSecured;
+        private DateTime _dateOfLastServiceCheck;
 
         public string FirmwareVersion { get; set; } = "v2.4.1";
 
-        public string Adress {
-           get { return _adress; }
-            set {
-            if(string.IsNullOrWhiteSpace(value) || value.Length < 5 || value.Length > 60)
-                throw new ArgumentException("Adress cannot be empty or be under 5 or over 60 characters.");
-            _adress = value; 
+        public SmartHouse()
+        {
+            _adress = "вул. Невідома, 1";
+            _rooms = 1;
+            _ownersName = "Невідомий";
+            _currentMode = HouseMode.Home;
+            _averageTemperature = 20.0;
+            _averageVoltage = 220.0;
+            _isSecured = false;
+            _dateOfLastServiceCheck = DateTime.Now;
+        }
+
+        public SmartHouse(string adress, string ownersName): this(adress, 2, ownersName, HouseMode.Home, 21.0, 220.0, false, DateTime.Now)
+        {
+        }
+
+        public SmartHouse(string adress, int rooms, string ownersName, HouseMode currentMode,
+                          double averageTemperature, double averageVoltage, bool isSecured, DateTime dateOfLastServiceCheck)
+        {
+            Adress = adress;
+            Rooms = rooms;
+            OwnersName = ownersName;
+            CurrentMode = currentMode;
+            AverageTemperature = averageTemperature;
+            AverageVoltage = averageVoltage;
+            IsSecured = isSecured;
+            DateOfLastServiceCheck = dateOfLastServiceCheck;
+        }
+
+        public string Adress
+        {
+            get { return _adress; }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value) || value.Length < 5 || value.Length > 60)
+                    throw new ArgumentException("Adress cannot be empty or be under 5 or over 60 characters.");
+                _adress = value;
             }
-         }
+        }
 
         public int Rooms
         {
             get { return _rooms; }
             set
             {
-               if (value < 1 || value > 30)
-                   throw new ArgumentOutOfRangeException("Rooms must be between 1 and 30.");
-               _rooms = value;
+                if (value < 1 || value > 30)
+                    throw new ArgumentOutOfRangeException("Rooms must be between 1 and 30.");
+                _rooms = value;
             }
         }
 
@@ -44,7 +76,9 @@ public class SmartHouse
                 _ownersName = value;
             }
         }
+
         public HouseMode CurrentMode { get => _currentMode; set => _currentMode = value; }
+
         public double AverageTemperature
         {
             get { return _averageTemperature; }
@@ -54,12 +88,14 @@ public class SmartHouse
                     throw new ArgumentOutOfRangeException("Average temperature must be between 15.0 and 32.0 degrees Celsius.");
                 _averageTemperature = value;
             }
-        }   
-        public double AverageVoltage {
-            get { return _averageVoltage; } 
+        }
+
+        public double AverageVoltage
+        {
+            get { return _averageVoltage; }
             set
             {
-                if(value < 198.0 || value > 242.0)
+                if (value < 198.0 || value > 242.0)
                     throw new ArgumentOutOfRangeException("Average voltage must be between 198.0 and 242.0 volts.");
                 _averageVoltage = value;
             }
@@ -86,6 +122,7 @@ public class SmartHouse
         }
 
         public bool IsSecured { get => _isSecured; private set => _isSecured = value; }
+
         public DateTime DateOfLastServiceCheck { get => _dateOfLastServiceCheck; set => _dateOfLastServiceCheck = value; }
 
         public void SwitchMode(HouseMode newMode)
@@ -99,17 +136,31 @@ public class SmartHouse
             if (mode == HouseMode.Away || mode == HouseMode.Vacation) _isSecured = true;
             else if (mode == HouseMode.Home) _isSecured = false;
         }
+
         public void AdjustTemperature(double temperatureChange)
         {
             AverageTemperature += temperatureChange;
         }
 
-        public void ToggleSecurity(bool status) => _isSecured = status; 
+        public void AdjustTemperature(double targetTemperature, HouseMode targetMode)
+        {
+            AverageTemperature = targetTemperature;
+            SwitchMode(targetMode);
+        }
 
-         public bool CheckAndStabilizeVoltage(double newVoltage)
-         {
+        public void ToggleSecurity(bool status) => _isSecured = status;
+
+        public bool CheckAndStabilizeVoltage(double newVoltage)
+        {
             _averageVoltage = newVoltage;
             return _averageVoltage >= 198.0 && _averageVoltage <= 242.0;
-         }
-}
+        }
 
+        public string GetInfo()
+        {
+            return $"Адреса: {Adress}, Власник: {OwnersName}, Кімнат: {Rooms}, Режим: {CurrentMode}, " +
+                   $"Температура: {AverageTemperature:F1}°C, Напруга: {AverageVoltage:F1}В ({VoltageStatus}), " +
+                   $"Охорона: {(IsSecured ? "Увімкнена" : "Вимкнена")}, Перевірка: {DateOfLastServiceCheck:yyyy-MM-dd}";
+        }
+    }
+}

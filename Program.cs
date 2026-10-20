@@ -89,8 +89,8 @@ namespace OOP_Lab1
             }
 
             Console.WriteLine("=== РЕЖИМ ДОДАВАННЯ ОБ'ЄКТА ===");
-            Console.WriteLine("1 – Ручне введення даних");
-            Console.WriteLine("2 – Автоматичне введення (генерація тестових даних)");
+            Console.WriteLine("1 – Ручне введення даних (конструктор за замовчуванням)");
+            Console.WriteLine("2 – Автоматичне введення (демонстрація генерації конструкторів)");
             Console.Write("Ваш вибір: ");
 
             string mode = Console.ReadLine()?.Trim();
@@ -262,6 +262,9 @@ namespace OOP_Lab1
 
         static void AddHouseAuto()
         {
+            Console.Clear();
+            Console.WriteLine("=== АВТОМАТИЧНЕ СТВОРЕННЯ (ДЕМОНСТРАЦІЯ КОНСТРУКТОРІВ) ===\n");
+
             Random rnd = new Random();
 
             string[] streetNames =
@@ -274,22 +277,45 @@ namespace OOP_Lab1
                 "Олександр", "Марія", "Володимир", "Олена", "Дмитро", "Анна"
             };
 
-            SmartHouse house = new SmartHouse();
+            string genAdress = streetNames[rnd.Next(streetNames.Length)] + rnd.Next(1, 100);
+            string genOwner = ownerNames[rnd.Next(ownerNames.Length)];
+            int genRooms = rnd.Next(1, 6);
+            HouseMode genMode = (HouseMode)rnd.Next(0, 5);
+            double genTemp = Math.Round(18.0 + rnd.NextDouble() * 8.0, 1);
+            double genVolt = Math.Round(200.0 + rnd.NextDouble() * 40.0, 1);
+            bool genSecured = rnd.Next(0, 2) == 1;
+            DateTime genDate = DateTime.Now.AddDays(-rnd.Next(10, 500));
 
-            house.Adress = streetNames[rnd.Next(streetNames.Length)] + rnd.Next(1, 100);
-            house.OwnersName = ownerNames[rnd.Next(ownerNames.Length)];
-            house.Rooms = rnd.Next(1, 6);
-            house.SwitchMode((HouseMode)rnd.Next(0, 5));
-            house.AverageTemperature = Math.Round(18.0 + rnd.NextDouble() * 8.0, 1);
-            house.AverageVoltage = Math.Round(200.0 + rnd.NextDouble() * 40.0, 1);
-            house.ToggleSecurity(rnd.Next(0, 2) == 1);
-            house.DateOfLastServiceCheck = DateTime.Now.AddDays(-rnd.Next(10, 500));
+            int constructorType = rnd.Next(1, 4);
+            SmartHouse house;
+
+            switch (constructorType)
+            {
+                case 1:
+                    Console.WriteLine("[АВТО-ГЕНЕРАЦІЯ]: Викликано конструктор ЗА ЗАМОВЧУВАННЯМ SmartHouse()");
+                    house = new SmartHouse();
+                    break;
+
+                case 2:
+                    Console.WriteLine("[АВТО-ГЕНЕРАЦІЯ]: Викликано ЧАСТКОВИЙ конструктор SmartHouse(adress, ownersName)");
+                    house = new SmartHouse(genAdress, genOwner);
+                    break;
+
+                case 3:
+                    Console.WriteLine("[АВТО-ГЕНЕРАЦІЯ]: Викликано ПОВНИЙ конструктор з усім набором параметрів");
+                    house = new SmartHouse(genAdress, genRooms, genOwner, genMode, genTemp, genVolt, genSecured, genDate);
+                    break;
+
+                default:
+                    house = new SmartHouse();
+                    break;
+            }
 
             houses[currentCount] = house;
             currentCount++;
 
-            Console.WriteLine("\nУСПІХ! Об'єкт автоматично згенеровано та додано!");
-            Console.WriteLine($"Власник: {house.OwnersName} | Адреса: {house.Adress}");
+            Console.WriteLine("\nУСПІХ! Об'єкт згенеровано та додано!");
+            Console.WriteLine($"Інформація: {house.GetInfo()}");
 
             Pause();
         }
@@ -541,17 +567,14 @@ namespace OOP_Lab1
                 Console.Clear();
 
                 Console.WriteLine($"=== ДЕМОНСТРАЦІЯ ПОВЕДІНКИ (Об'єкт №{index}: {target.Adress}) ===");
-                Console.WriteLine($"Власник: {target.OwnersName} | Прошивка: {target.FirmwareVersion}");
-                Console.WriteLine($"Стан: Режим = {target.CurrentMode}, " +
-                                  $"Темп = {target.AverageTemperature:F1}°C, " +
-                                  $"Напруга = {target.AverageVoltage:F1}В ({target.VoltageStatus}), " +
-                                  $"Охорона = {(target.IsSecured ? "Так" : "Ні")}");
+                Console.WriteLine($"Зведення: {target.GetInfo()}");
 
                 Console.WriteLine("-------------------------------------------------------------------");
                 Console.WriteLine("1 – Змінити режим (SwitchMode)");
-                Console.WriteLine("2 – Змінити температуру (AdjustTemperature)");
-                Console.WriteLine("3 – Керування охороною (ToggleSecurity)");
-                Console.WriteLine("4 – Перевірити/налаштувати напругу (CheckAndStabilizeVoltage)");
+                Console.WriteLine("2 – Коригувати температуру (AdjustTemperature(double))");
+                Console.WriteLine("3 – Встановити температуру та режим [ПЕРЕВАНТАЖЕННЯ] (AdjustTemperature(double, HouseMode))");
+                Console.WriteLine("4 – Керування охороною (ToggleSecurity)");
+                Console.WriteLine("5 – Перевірити/налаштувати напругу (CheckAndStabilizeVoltage)");
                 Console.WriteLine("0 – Повернутися до головного меню");
                 Console.Write("Оберіть дію: ");
 
@@ -594,6 +617,32 @@ namespace OOP_Lab1
                         break;
 
                     case "3":
+                        Console.Write("\nВведіть точну цільову температуру (15.0 - 32.0): ");
+                        if (double.TryParse(Console.ReadLine(), out double targetTemp))
+                        {
+                            Console.WriteLine("Оберіть цільовий режим: 0 - Home, 1 - Away, 2 - Econom, 3 - Night, 4 - Vacation");
+                            Console.Write("Режим: ");
+
+                            if (int.TryParse(Console.ReadLine(), out int modeVal) && modeVal >= 0 && modeVal <= 4)
+                            {
+                                try
+                                {
+                                    target.AdjustTemperature(targetTemp, (HouseMode)modeVal);
+                                    Console.WriteLine($"[ОК - Перевантаження] Встановлено температуру {target.AverageTemperature:F1} °C та режим {target.CurrentMode}.");
+                                }
+                                catch (ArgumentOutOfRangeException ex)
+                                {
+                                    Console.WriteLine($"[ПОМИЛКА КЛІМАТУ] {ex.Message}");
+                                }
+                            }
+                            else Console.WriteLine("ПОМИЛКА! Некоректний режим!");
+                        }
+                        else Console.WriteLine("ПОМИЛКА! Некоректне число!");
+
+                        Pause();
+                        break;
+
+                    case "4":
                         Console.Write("\nУвімкнути охорону? (1 - Так, 0 - Ні): ");
                         string s = Console.ReadLine()?.Trim();
 
@@ -615,7 +664,7 @@ namespace OOP_Lab1
                         Pause();
                         break;
 
-                    case "4":
+                    case "5":
                         Console.Write("\nВведіть значення напруги для перевірки (наприклад, 220 або 250): ");
 
                         if (double.TryParse(Console.ReadLine(), out double newVoltage))
