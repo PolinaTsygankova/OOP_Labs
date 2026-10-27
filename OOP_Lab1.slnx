@@ -3,5 +3,6 @@
     <File Path="HouseMode.cs" />
     <File Path="SmartHouse.cs" />
   </Folder>
+  <Project Path="../OOP_Lab1.Tests/OOP_Lab1.Tests.csproj" Id="c7a4b6f7-9b71-475f-b2a7-b59cd5f5c4cd" />
   <Project Path="OOP_Lab1.csproj" />
 </Solution>

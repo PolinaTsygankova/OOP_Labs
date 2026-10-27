@@ -40,7 +40,7 @@ namespace OOP_Lab1
                 Console.WriteLine("3 – Знайти об'єкт");
                 Console.WriteLine("4 – Продемонструвати поведінку");
                 Console.WriteLine("5 – Видалити об'єкт");
-                Console.WriteLine("6 – Продемонструвати static-методи"); 
+                Console.WriteLine("6 – Продемонструвати static-методи");
                 Console.WriteLine("0 – Вийти з програми");
                 Console.WriteLine("============================================");
                 Console.Write("Оберіть пункт меню: ");
@@ -68,7 +68,7 @@ namespace OOP_Lab1
                         Pause();
                         break;
                     case "6":
-                        DemonstrateStaticMethods(); 
+                        DemonstrateStaticMethods();
                         Pause();
                         break;
                     case "0":
@@ -96,14 +96,14 @@ namespace OOP_Lab1
             Console.WriteLine("=== РЕЖИМ ДОДАВАННЯ ОБ'ЄКТА ===");
             Console.WriteLine("1 – Ручне введення даних (конструктор за замовчуванням)");
             Console.WriteLine("2 – Автоматичне введення (демонстрація генерації конструкторів)");
-            Console.WriteLine("3 – Введення через рядок (демонстрація методу TryParse)"); 
+            Console.WriteLine("3 – Введення через рядок (демонстрація методу TryParse)");
             Console.Write("Ваш вибір: ");
 
             string mode = Console.ReadLine()?.Trim();
 
             if (mode == "1") AddHouseManual();
             else if (mode == "2") AddHouseAuto();
-            else if (mode == "3") AddHouseFromString(); 
+            else if (mode == "3") AddHouseFromString();
             else
             {
                 Console.WriteLine("ПОМИЛКА! Некоректний вибір!");
