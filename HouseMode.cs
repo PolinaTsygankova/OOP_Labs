@@ -1,5 +1,5 @@
 ﻿using System;
-namespace OOP_Lab1
+namespace OOP_Lab6
 {
     public enum HouseMode
     {
