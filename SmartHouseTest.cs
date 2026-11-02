@@ -41,19 +41,8 @@ namespace OOP_Lab1.Tests
             // Arrange
             string invalidAddress = "Дім";
 
-            // Act
-            try
-            {
-                _house.Adress = invalidAddress;
-
-                // Assert
-                Assert.Fail("Очікувалася помилка ArgumentException.");
-            }
-            catch (ArgumentException)
-            {
-                // Assert
-                Assert.IsTrue(true);
-            }
+            // Act & Assert
+            Assert.Throws<ArgumentException>(() => _house.Adress = invalidAddress);
         }
 
         [TestMethod]
@@ -75,19 +64,8 @@ namespace OOP_Lab1.Tests
             // Arrange
             int invalidRooms = 35;
 
-            // Act
-            try
-            {
-                _house.Rooms = invalidRooms;
-
-                // Assert
-                Assert.Fail("Очікувалася помилка ArgumentOutOfRangeException.");
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                // Assert
-                Assert.IsTrue(true);
-            }
+            // Act & Assert
+            Assert.Throws<ArgumentOutOfRangeException>(() => _house.Rooms = invalidRooms);
         }
 
         [TestMethod]
@@ -109,19 +87,8 @@ namespace OOP_Lab1.Tests
             // Arrange
             string invalidName = "";
 
-            // Act
-            try
-            {
-                _house.OwnersName = invalidName;
-
-                // Assert
-                Assert.Fail("Очікувалася помилка ArgumentException.");
-            }
-            catch (ArgumentException)
-            {
-                // Assert
-                Assert.IsTrue(true);
-            }
+            // Act & Assert
+            Assert.Throws<ArgumentException>(() => _house.OwnersName = invalidName);
         }
 
         [TestMethod]
@@ -143,19 +110,8 @@ namespace OOP_Lab1.Tests
             // Arrange
             double invalidTemp = 10.0;
 
-            // Act
-            try
-            {
-                _house.AverageTemperature = invalidTemp;
-
-                // Assert
-                Assert.Fail("Очікувалася помилка ArgumentOutOfRangeException.");
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                // Assert
-                Assert.IsTrue(true);
-            }
+            // Act & Assert
+            Assert.Throws<ArgumentOutOfRangeException>(() => _house.AverageTemperature = invalidTemp);
         }
 
         [TestMethod]
@@ -177,19 +133,8 @@ namespace OOP_Lab1.Tests
             // Arrange
             double invalidVoltage = 300.0;
 
-            // Act
-            try
-            {
-                _house.AverageVoltage = invalidVoltage;
-
-                // Assert
-                Assert.Fail("Очікувалася помилка ArgumentOutOfRangeException.");
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                // Assert
-                Assert.IsTrue(true);
-            }
+            // Act & Assert
+            Assert.Throws<ArgumentOutOfRangeException>(() => _house.AverageVoltage = invalidVoltage);
         }
 
         [TestMethod]
@@ -266,19 +211,8 @@ namespace OOP_Lab1.Tests
             // Arrange
             string emptyString = "";
 
-            // Act
-            try
-            {
-                SmartHouse.Parse(emptyString);
-
-                // Assert
-                Assert.Fail("Очікувалася помилка ArgumentNullException.");
-            }
-            catch (ArgumentNullException)
-            {
-                // Assert
-                Assert.IsTrue(true);
-            }
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() => SmartHouse.Parse(emptyString));
         }
 
         [TestMethod]
@@ -352,7 +286,7 @@ namespace OOP_Lab1.Tests
         }
 
         [TestMethod]
-        public void DecrementCounter_DoesNotThrowException()
+        public void DecrementCounter_DeadNotThrowException()
         {
             // Arrange 
 
