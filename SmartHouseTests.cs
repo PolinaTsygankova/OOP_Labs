@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OOP_Lab1;
 using OOP_Lab6;
 
 namespace OOP_Lab1.Tests
